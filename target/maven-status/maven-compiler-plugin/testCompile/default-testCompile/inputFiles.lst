@@ -1,0 +1,13 @@
+C:\QA_projects\Sprint7\src\test\java\config\ApiConfig.java
+C:\QA_projects\Sprint7\src\test\java\config\CourierCreatePOJO.java
+C:\QA_projects\Sprint7\src\test\java\config\CourierLoginPOJO.java
+C:\QA_projects\Sprint7\src\test\java\config\Endpoints.java
+C:\QA_projects\Sprint7\src\test\java\config\OrderPOJO.java
+C:\QA_projects\Sprint7\src\test\java\config\QAScooterServiceClient.java
+C:\QA_projects\Sprint7\src\test\java\tests\AcceptOrderTest.java
+C:\QA_projects\Sprint7\src\test\java\tests\Courier.java
+C:\QA_projects\Sprint7\src\test\java\tests\CreateCourierTest.java
+C:\QA_projects\Sprint7\src\test\java\tests\DeleteCourierTest.java
+C:\QA_projects\Sprint7\src\test\java\tests\GetOrderByNumberTest.java
+C:\QA_projects\Sprint7\src\test\java\tests\LoginCourierTest.java
+C:\QA_projects\Sprint7\src\test\java\tests\LoginRequest.java

@@ -1,0 +1,13 @@
+config\ApiConfig.class
+tests\DeleteCourierTest.class
+tests\LoginCourierTest.class
+tests\AcceptOrderTest.class
+config\CourierLoginPOJO.class
+config\QAScooterServiceClient.class
+tests\Courier.class
+tests\LoginRequest.class
+tests\GetOrderByNumberTest.class
+config\CourierCreatePOJO.class
+tests\CreateCourierTest.class
+config\OrderPOJO.class
+config\Endpoints.class

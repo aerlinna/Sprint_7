@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: tests.AcceptOrderTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 10.659 s <<< FAILURE! - in tests.AcceptOrderTest
+acceptOrderWithoutOrderId(tests.AcceptOrderTest)  Time elapsed: 0.867 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <404>.
+
+	at tests.AcceptOrderTest.acceptOrderWithoutOrderId(AcceptOrderTest.java:113)
+
+acceptOrderWithoutCourierId(tests.AcceptOrderTest)  Time elapsed: 1.016 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <404>.
+
+	at tests.AcceptOrderTest.acceptOrderWithoutCourierId(AcceptOrderTest.java:85)
+
+acceptOrderSuccess(tests.AcceptOrderTest)  Time elapsed: 0.821 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <404>.
+
+	at tests.AcceptOrderTest.acceptOrderSuccess(AcceptOrderTest.java:71)
+
