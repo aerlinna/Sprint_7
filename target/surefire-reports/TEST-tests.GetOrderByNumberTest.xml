@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="tests.GetOrderByNumberTest" time="2.777" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="tests.GetOrderByNumberTest" time="1.016" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -17,7 +17,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Amazon Corretto\jdk11.0.25_9\bin"/>
-    <property name="sun.java.command" value="C:\Users\aerli\AppData\Local\Temp\surefire15463524421692522792\surefirebooter4291899302977302817.jar C:\Users\aerli\AppData\Local\Temp\surefire15463524421692522792 2025-07-24T01-28-47_359-jvmRun1 surefire9586951945109236447tmp surefire_016941212122398648701tmp"/>
+    <property name="sun.java.command" value="C:\Users\aerli\AppData\Local\Temp\surefire5860696086993094482\surefirebooter17892405883371167112.jar C:\Users\aerli\AppData\Local\Temp\surefire5860696086993094482 2025-08-02T15-52-14_126-jvmRun1 surefire17059346223983496224tmp surefire_06870560765965685035tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\QA_projects\Sprint7\target\test-classes;C:\QA_projects\Sprint7\target\classes;C:\Users\aerli\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\aerli\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\aerli\.m2\repository\io\rest-assured\rest-assured\5.5.5\rest-assured-5.5.5.jar;C:\Users\aerli\.m2\repository\org\apache\groovy\groovy\4.0.22\groovy-4.0.22.jar;C:\Users\aerli\.m2\repository\org\apache\groovy\groovy-xml\4.0.22\groovy-xml-4.0.22.jar;C:\Users\aerli\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\aerli\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\aerli\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\aerli\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\aerli\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\aerli\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\aerli\.m2\repository\io\rest-assured\json-path\5.5.5\json-path-5.5.5.jar;C:\Users\aerli\.m2\repository\org\apache\groovy\groovy-json\4.0.22\groovy-json-4.0.22.jar;C:\Users\aerli\.m2\repository\io\rest-assured\rest-assured-common\5.5.5\rest-assured-common-5.5.5.jar;C:\Users\aerli\.m2\repository\io\rest-assured\xml-path\5.5.5\xml-path-5.5.5.jar;C:\Users\aerli\.m2\repository\io\qameta\allure\allure-junit4\2.21.0\allure-junit4-2.21.0.jar;C:\Users\aerli\.m2\repository\io\qameta\allure\allure-java-commons\2.21.0\allure-java-commons-2.21.0.jar;C:\Users\aerli\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\aerli\.m2\repository\io\qameta\allure\allure-model\2.21.0\allure-model-2.21.0.jar;C:\Users\aerli\.m2\repository\io\qameta\allure\allure-rest-assured\2.21.0\allure-rest-assured-2.21.0.jar;C:\Users\aerli\.m2\repository\io\qameta\allure\allure-attachments\2.21.0\allure-attachments-2.21.0.jar;C:\Users\aerli\.m2\repository\org\freemarker\freemarker\2.3.31\freemarker-2.3.31.jar;C:\Users\aerli\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.15.1\jackson-databind-2.15.1.jar;C:\Users\aerli\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.15.1\jackson-annotations-2.15.1.jar;C:\Users\aerli\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.15.1\jackson-core-2.15.1.jar;C:\Users\aerli\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\aerli\.m2\repository\net\datafaker\datafaker\1.8.0\datafaker-1.8.0.jar;C:\Users\aerli\.m2\repository\org\yaml\snakeyaml\1.33\snakeyaml-1.33.jar;C:\Users\aerli\.m2\repository\com\github\mifmif\generex\1.0.2\generex-1.0.2.jar;C:\Users\aerli\.m2\repository\dk\brics\automaton\automaton\1.11-8\automaton-1.11-8.jar;C:\Users\aerli\.m2\repository\org\projectlombok\lombok\1.18.30\lombok-1.18.30.jar;C:\Users\aerli\.m2\repository\com\google\code\gson\gson\2.8.9\gson-2.8.9.jar;C:\Users\aerli\.m2\repository\org\apache\httpcomponents\httpcore\4.4.15\httpcore-4.4.15.jar;"/>
     <property name="allure.results.directory" value="C:\QA_projects\Sprint7\target/allure-results"/>
@@ -34,7 +34,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\aerli\AppData\Local\Temp\surefire15463524421692522792\surefirebooter4291899302977302817.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\aerli\AppData\Local\Temp\surefire5860696086993094482\surefirebooter17892405883371167112.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="11.0.25+9-LTS"/>
@@ -62,6 +62,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="getOrderByNumberNotFound" classname="tests.GetOrderByNumberTest" time="0.427"/>
-  <testcase name="getOrderByNumberSuccess" classname="tests.GetOrderByNumberTest" time="2.346"/>
+  <testcase name="getOrderByNumberNotFound" classname="tests.GetOrderByNumberTest" time="0.461"/>
+  <testcase name="getOrderByNumberSuccess" classname="tests.GetOrderByNumberTest" time="0.54"/>
 </testsuite>
