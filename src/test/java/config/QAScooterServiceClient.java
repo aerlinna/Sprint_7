@@ -1,13 +1,11 @@
 package config;
-
+import java.util.List;
+import java.util.Arrays;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.BeforeClass;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static config.Endpoints.*;
 import static io.restassured.RestAssured.given;
@@ -23,86 +21,83 @@ public class QAScooterServiceClient {
         assumeTrue("API недоступен", ApiConfig.checkApiAvailable());
     }
 
-    protected Response loginCourier(String login, String password) {
-        CourierLoginPOJO body = new CourierLoginPOJO(login, password);
+    public Response loginCourier(String login, String password) {
+        return loginCourier(new CourierLogin(login, password));
+    }
 
+    public Response loginCourier(CourierLogin login) {
         return given()
                 .contentType(ContentType.JSON)
-                .body(gson.toJson(body))
+                .body(gson.toJson(login))
                 .when()
                 .post(COURIER_LOGIN);
     }
 
-    protected Response createCourier(String login, String password, String name) {
-        CourierCreatePOJO body = new CourierCreatePOJO(login, password, name);
-
+    public Response createCourierResponse(Courier courier) {
         return given()
                 .contentType(ContentType.JSON)
-                .body(gson.toJson(body))
+                .body(gson.toJson(courier))
                 .when()
                 .post(COURIER_CREATE);
     }
 
-    protected Response createCourierNoLogin(String password, String name) {
-        CourierCreatePOJO body = new CourierCreatePOJO("", password, name);
-
+    public Response deleteCourier(Integer id) {
         return given()
                 .contentType(ContentType.JSON)
-                .body(gson.toJson(body))
-                .when()
-                .post(COURIER_CREATE);
-    }
-
-    protected Response createCourierNoPassword(String login, String name) {
-        CourierCreatePOJO body = new CourierCreatePOJO(login, "", name);
-
-        return given()
-                .contentType(ContentType.JSON)
-                .body(gson.toJson(body))
-                .when()
-                .post(COURIER_CREATE);
-    }
-
-    protected Response deleteCourier(String login, String password) {
-        Response loginResponse = loginCourier(login, password);
-        String id = loginResponse.jsonPath().getString("id");
-
-        return given()
-                .header("Content-type", "application/json")
                 .pathParam("id", id)
                 .when()
                 .delete(COURIER_DELETE + "{id}");
     }
 
-    protected int createOrder(String[] colors) {
-        List<String> colorList = colors != null ? Arrays.asList(colors) : null;
+    // создаю заказ
+    public int createOrder(String[] colors) {
+        List<String> colorList = (colors != null && colors.length > 0) ? Arrays.asList(colors) : null;
 
         OrderPOJO order = new OrderPOJO(
-                "Harry",
-                "Potter",
-                "Hogwarts Castle, Scotland",
-                "Hogsmeade Station",
-                "+441234567890",
-                7,
-                "2025-10-31",
-                "Send via owl post, leave at the Fat Lady’s portrait",
+                TestData.ORDER_FIRST_NAME,
+                TestData.ORDER_LAST_NAME,
+                TestData.ORDER_ADDRESS,
+                TestData.ORDER_METRO_STATION,
+                TestData.ORDER_PHONE,
+                TestData.ORDER_RENT_TIME,
+                TestData.ORDER_DELIVERY_DATE,
+                TestData.ORDER_COMMENT,
                 colorList
         );
 
         Response response = given()
-                .header("Content-type", "application/json")
-                .body(order)
+                .contentType(ContentType.JSON)
+                .body(gson.toJson(order))
                 .when()
                 .post(CREATING_AN_ORDER);
 
+        response.then().statusCode(201);
         return response.jsonPath().getInt("track");
     }
 
-    protected Response getOrderByTrack(int track) {
+    // получаю список всех заказов
+    public Response getAllOrders() {
         return given()
-                .header("Content-type", "application/json")
+                .contentType(ContentType.JSON)
+                .when()
+                .get(GET_ORDERS);
+    }
+
+    // получаю заказ по номеру трека
+    public Response getOrderByTrack(int track) {
+        return given()
+                .contentType(ContentType.JSON)
                 .queryParam("t", track)
                 .when()
                 .get(RECEIVE_AN_ORDER);
+    }
+
+    // Отменить заказ по треку
+    public Response cancelOrder(int track) {
+        return given()
+                .contentType(ContentType.JSON)
+                .queryParam("track", track)
+                .when()
+                .put(ORDERS_CANCEL);
     }
 }

@@ -1,56 +1,97 @@
 package tests;
 
-import io.restassured.response.ValidatableResponse;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.core.IsNull.notNullValue;
-
+import config.QAScooterServiceClient;
+import config.TestData;
+import config.Courier;
+import config.CourierLogin;
+import io.qameta.allure.*;
+import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LoginCourierTest {
-    private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/";
-    private static final String CREATE_COURIER_URL = "/api/v1/courier";
-    private static final String LOGIN_COURIER_URL = "/api/v1/courier/login";
-    private static final String DELETE_COURIER_URL = "/api/v1/courier/{id}";
+import static org.hamcrest.Matchers.*;
 
-    private final Courier courier = new Courier("owl_login", "lumos", "Errol");
-    private Integer courierId = null;
+@Epic("API тесты сервиса доставки")
+@Feature("Логин курьера")
+public class LoginCourierTest extends QAScooterServiceClient {
+
+    private Integer courierId;
 
     @Before
+    @Step("Создание тестового курьера")
     public void setUp() {
-        given().baseUri(BASE_URL)
-                .header("Content-Type", "application/json")
-                .body(courier)
-                .post(CREATE_COURIER_URL)
-                .then().statusCode(201);
+        Courier courier = new Courier(
+                TestData.COURIER_LOGIN,
+                TestData.COURIER_PASSWORD,
+                TestData.COURIER_FIRST_NAME
+        );
+        createCourierResponse(courier).then().statusCode(201);
     }
 
     @Test
-    public void courierCanLogin_withValidCredentials() {
-        ValidatableResponse loginResponse =
-                given().baseUri(BASE_URL)
-                        .header("Content-Type", "application/json")
-                        .body("{\"login\": \"" + courier.getLogin() + "\", \"password\": \"" + courier.getPassword() + "\"}")
-                        .post(LOGIN_COURIER_URL)
-                        .then().log().all();
+    @Story("Успешный логин курьера")
+    @Description("Курьер может авторизоваться с корректными учетными данными")
+    public void loginSuccess() {
+        CourierLogin login = new CourierLogin(TestData.COURIER_LOGIN, TestData.COURIER_PASSWORD);
+        Response res = loginCourier(login);
 
-        loginResponse.assertThat().statusCode(200).body("id", notNullValue());
+        res.then()
+                .statusCode(200)
+                .body("id", notNullValue());
 
-        courierId = loginResponse.extract().path("id");
+        courierId = res.jsonPath().getInt("id");
+    }
+
+    @Test
+    @Story("Ошибка при неправильном логине или пароле")
+    @Description("Система возвращает ошибку, если неверно указан логин или пароль")
+    public void loginFailWrongCredentials() {
+        CourierLogin login = new CourierLogin(TestData.COURIER_LOGIN + "wrong", TestData.COURIER_PASSWORD);
+        loginCourier(login)
+                .then()
+                .statusCode(404)
+                .body("message", not(emptyString()));
+    }
+
+    @Test
+    @Story("Ошибка при отсутствии обязательных полей")
+    @Description("Запрос возвращает ошибку, если отсутствует обязательное поле login или password")
+    public void loginFailMissingFields() {
+        // Отсутствует login
+        loginCourier(new CourierLogin(null, TestData.COURIER_PASSWORD))
+                .then()
+                .statusCode(400)
+                .body("message", not(emptyString()));
+
+        // Отсутствует password
+        loginCourier(new CourierLogin(TestData.COURIER_LOGIN, null))
+                .then()
+                .statusCode(400)
+                .body("message", not(emptyString()));
+    }
+
+    @Test
+    @Story("Ошибка при попытке авторизации несуществующего курьера")
+    @Description("Система возвращает ошибку, если пользователь не существует")
+    public void loginFailNonexistentUser() {
+        CourierLogin login = new CourierLogin("nonexistent" + System.currentTimeMillis(), "somepass");
+        loginCourier(login)
+                .then()
+                .statusCode(404)
+                .body("message", not(emptyString()));
     }
 
     @After
+    @Step("Удаление тестового курьера")
     public void cleanUp() {
         if (courierId != null) {
             try {
-                given().baseUri(BASE_URL)
-                        .pathParam("id", courierId)
-                        .delete(DELETE_COURIER_URL)
-                        .then().statusCode(200);
+                deleteCourier(courierId)
+                        .then()
+                        .statusCode(200);
             } catch (Exception e) {
-                System.out.println(" Не удалось удалить курьера: " + courierId);
+                System.out.println("Не удалось удалить курьера с id: " + courierId);
             }
         }
     }

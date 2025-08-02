@@ -1,65 +1,101 @@
 package tests;
 
-import io.restassured.response.ValidatableResponse;
+import com.github.javafaker.Faker;
+import config.Courier;
+import config.QAScooterServiceClient;
+import io.qameta.allure.*;
+import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Test;
 
-import java.util.UUID;
+import java.util.Locale;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.Matchers.*;
 
-public class CreateCourierTest {
-    private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru";
-    private static final String CREATE_COURIER_URL = "/api/v1/courier";
-    private static final String LOGIN_COURIER_URL = "/api/v1/courier/login";
-    private static final String DELETE_COURIER_URL = "/api/v1/courier/{id}";
+@Epic("API тесты сервиса доставки")
+@Feature("Создание курьера")
+public class CreateCourierTest extends QAScooterServiceClient {
 
-    private final String login = "owl_post_new_" + UUID.randomUUID().toString().substring(0, 5);
-    private final String password = "alohomora";
-    private final Courier courier = new Courier(login, password, "Hedwig");
-    private Integer courierId = null;
+    private static final Faker faker = new Faker(new Locale("en"));
+    private Integer courierId;
+
+    private Courier generateCourier() {
+        return new Courier(
+                "cr_" + faker.name().username() + faker.number().digits(3),
+                faker.internet().password(6, 12),
+                faker.name().firstName()
+        );
+    }
 
     @Test
-    public void createCourier_success() {
-        ValidatableResponse createResponse = given().log().all()
-                .baseUri(BASE_URL)
-                .header("Content-Type", "application/json")
-                .body(courier)
-                .post(CREATE_COURIER_URL)
-                .then().log().all();
+    @Story("Успешное создание курьера")
+    @Description("Проверяем, что курьера можно создать, и ответ содержит ok: true")
+    public void createCourierSuccess() {
+        Courier courier = generateCourier();
 
-        createResponse.assertThat().statusCode(201).body("ok", equalTo(true));
+        Response response = createCourierResponse(courier);
+        response.then()
+                .statusCode(201)
+                .body("ok", equalTo(true));
+
+        courierId = loginCourier(courier.getLogin(), courier.getPassword())
+                .then()
+                .statusCode(200)
+                .extract()
+                .path("id");
+    }
+
+    @Test
+    @Story("Создание двух одинаковых курьеров")
+    @Description("Нельзя создать двух курьеров с одинаковым логином")
+    public void createDuplicateCourierFails() {
+        Courier courier = generateCourier();
 
 
-        String loginBody = String.format("{\"login\":\"%s\",\"password\":\"%s\"}", login, password);
+        createCourierResponse(courier)
+                .then()
+                .statusCode(201)
+                .body("ok", equalTo(true));
 
-        ValidatableResponse loginResponse = given().log().all()
-                .baseUri(BASE_URL)
-                .header("Content-Type", "application/json")
-                .body(loginBody)
-                .post(LOGIN_COURIER_URL)
-                .then().log().all();
 
-        loginResponse.assertThat().statusCode(200);
-        courierId = loginResponse.extract().path("id");
+        createCourierResponse(courier)
+                .then()
+                .statusCode(409)
+                .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+
+        courierId = loginCourier(courier.getLogin(), courier.getPassword())
+                .then()
+                .statusCode(200)
+                .extract()
+                .path("id");
+    }
+
+    @Test
+    @Story("Создание курьера без пароля")
+    @Description("Если отсутствует пароль, запрос возвращает 400 и сообщение об ошибке")
+    public void createCourierWithoutPasswordFails() {
+        Courier courier = new Courier(
+                "cr_" + faker.name().username() + faker.number().digits(3),
+                null,
+                faker.name().firstName()
+        );
+
+        createCourierResponse(courier)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @After
-    public void after() {
+    @Step("Удаляем созданного курьера после теста")
+    public void tearDown() {
         if (courierId != null) {
             try {
-                given().log().all()
-                        .baseUri(BASE_URL)
-                        .pathParam("id", courierId)
-                        .delete(DELETE_COURIER_URL)
-                        .then().log().all()
-                        .statusCode(anyOf(is(200), is(204)));
+                deleteCourier(courierId)
+                        .then()
+                        .statusCode(anyOf(is(200), is(404)));
             } catch (Exception e) {
-                System.out.println("Не удалось удалить курьера: " + courierId);
-                e.printStackTrace();
+                System.err.println("Не удалось удалить курьера с id = " + courierId + ": " + e.getMessage());
             }
         }
     }

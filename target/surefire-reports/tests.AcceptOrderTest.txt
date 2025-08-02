@@ -1,22 +1,22 @@
 -------------------------------------------------------------------------------
 Test set: tests.AcceptOrderTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 11.401 s <<< FAILURE! - in tests.AcceptOrderTest
-acceptOrderWithoutOrderId(tests.AcceptOrderTest)  Time elapsed: 1.18 s  <<< FAILURE!
+Tests run: 5, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 10.957 s <<< FAILURE! - in tests.AcceptOrderTest
+acceptOrderWithoutOrderId(tests.AcceptOrderTest)  Time elapsed: 0.955 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <400> but was <404>.
 
 	at tests.AcceptOrderTest.acceptOrderWithoutOrderId(AcceptOrderTest.java:113)
 
-acceptOrderWithoutCourierId(tests.AcceptOrderTest)  Time elapsed: 0.912 s  <<< FAILURE!
+acceptOrderWithoutCourierId(tests.AcceptOrderTest)  Time elapsed: 1.392 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <400> but was <404>.
 
 	at tests.AcceptOrderTest.acceptOrderWithoutCourierId(AcceptOrderTest.java:85)
 
-acceptOrderSuccess(tests.AcceptOrderTest)  Time elapsed: 1.121 s  <<< FAILURE!
+acceptOrderSuccess(tests.AcceptOrderTest)  Time elapsed: 0.812 s  <<< FAILURE!
 java.lang.AssertionError: 
 1 expectation failed.
 Expected status code <200> but was <404>.

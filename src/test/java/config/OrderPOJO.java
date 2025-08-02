@@ -1,20 +1,20 @@
 package config;
 
+import lombok.Getter;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class OrderPOJO {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String metroStation;
-    private String phone;
-    private int rentTime;
-    private String deliveryDate;
-    private String comment;
-    private List<String> color;
+    private final String firstName;
+    private final String lastName;
+    private final String address;
+    private final String metroStation;
+    private final String phone;
+    private final int rentTime;
+    private final String deliveryDate;
+    private final String comment;
+    private final List<String> color;
 }
